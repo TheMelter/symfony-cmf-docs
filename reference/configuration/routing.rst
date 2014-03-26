@@ -487,12 +487,40 @@ content repository service.
     This can be overriden by this option. ORM doesn't have a content
     repository at the moment.
 
+.. _reference-config-routing-locales:
+
 locales
 ~~~~~~~
 
-**type**: ``array`` **default**:
+**type**: ``array`` **default**: array()
 
 To enable multilanguage, set the valid locales in this option.
 
 If the :doc:`CoreBundle <../../bundles/core/index>` is registered, this will default to the value
 of ``cmf_core.locales``.
+
+match_implicit_locale
+~~~~~~~~~~~~~~~~~~~~~
+
+**type**: ``boolean`` **default**: true
+
+Whether the route provider should look for routes without the locale.
+
+For example, when the ``locales`` are ``de`` and ``en`` and the request has the
+url ``de/my/path``, the route provider will not only look for ``de/my/path``,
+``de/my`` and ``de`` but also for ``my/path`` and ``my``. This allows to use a
+single route for multiple languages. This is used for example by the
+:doc:`SimpleCms <../../bundles/simple_cms/index>`.
+
+If you do not need this, disabling the option will gain some performance.
+
+auto_locale_pattern
+~~~~~~~~~~~~~~~~~~~
+
+**type**: ``boolean`` **default**: true
+
+If you enable this option, the LocaleListener will ensure that routes that have
+no locale in their static pattern get the ``auto_locale_pattern`` option set.
+
+This is ignored if there are no ``locales`` configured. It makes no sense to
+enable this option when ``match_implicit_locale`` is disabled.
